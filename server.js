@@ -1,8 +1,15 @@
 ﻿const tickets = require('./resources/tickets.json')
+const http = require('http')
 const express = require('express')
 
 const app = express()
 const port = 8009
+
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	next()
+})
 
 app.get('/tickets', (req, res) => {
 	res.send(tickets)
@@ -13,7 +20,8 @@ app.use((err, req, res, next) => {
 	res.status(500).send('Something went wrong')
 })
 
-app.listen(port, err => {
+const httpServer = http.createServer(app)
+httpServer.listen(port, err => {
 	if (err) {
 		console.log('Something went wrong')
 	}
