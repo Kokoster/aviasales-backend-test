@@ -11,7 +11,12 @@ app.use((req, res, next) => {
 	next()
 })
 
-app.get('/tickets', (req, res) => {
+const sleep = (ms) => {
+	return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+app.get('/tickets', async (req, res) => {
+	await sleep(3000)
 	res.send(tickets)
 })
 
